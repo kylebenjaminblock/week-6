@@ -21,32 +21,38 @@ var state = {
                     // get so small that it is smaller than 0.
   "slideData": [
     {
-      "name": "Leaflet",
-      "language": "Javascript",
-      "namespace": "L"
+      "name": "Is the Developed World Really Developed?",
+      "description": "What is meant by the term 'Devloped World?' Let's explore how diverse and developed these countries really are.",
     },
+
     {
-      "name": "Underscore",
-      "language": "Javascript",
-      "namespace": "_"
+      "name": "Where is the 'Developed World'?",
+      "description": "Developed countries are highly clustered with a few notable exceptions"
     },
+
     {
-      "name": "jQuery",
-      "language": "Javascript",
-      "namespace": "$"
+      "name": "What makes the 'Developed World' developed?",
+      "description": "Average incomes is the only mectric used to determine what makes a country developed",
     }
   ]
 };
 
-var clickNextButton = function() {
-
-}
 
 var clickPreviousButton = function() {
+  if(state.slideNumber < (state.slideData.length - 1)) {
+    state.slideNumber += 1;
+  }
+};
 
-}
+var clickPreviousButton = function(num) {
+  if(state.slideNumber > 0) {
+    state.slideNumber -= 1;
+  }
+};
 
-var saySlideName = function(slide) {
+var saySlideName = function(sayName) {
+    console.log(state.slideData[sayName]);
+};
+
   // saySlideName uses console.log to "say" the name of the slide it is given. It should run when
   // someone clicks on one of the buttons.
-}

@@ -23,6 +23,12 @@ Load the dataset into our application. Set the 'dataset' variable to
 https://raw.githubusercontent.com/CPLN692-MUSA611/datasets/master/geojson/philadelphia-garbage-collection-boundaries.geojson
 
 You should now have GeoJSON data projected onto your map!
+*/
+
+var dataset = "https://raw.githubusercontent.com/CPLN692-MUSA611/datasets/master/geojson/philadelphia-garbage-collection-boundaries.geojson";
+var featureGroup;
+
+/*
 
 ## Task 2
 
@@ -44,6 +50,20 @@ For our myStyle function, we want a different fillColor to be returned depending
 on the day of the week. If you need help, review http://leafletjs.com/examples/geojson.html for
 working examples of this function.
 
+*/
+
+var myStyle = function(feature) {
+  return {}
+    switch (feature.properties.COLLDAY) {
+             case 'MON': return {color: "#E67E22"};
+             case 'TUE': return {color: "#AAB7B8"};
+             case 'WED': return {color: "#34bf49"};
+             case 'THU': return {color: "#27AE60"};
+             case 'FRI': return {color: "#C0392B"};
+         }
+};
+
+/*
 ## Task 3
 
 You might have noticed that two of the features we are mapping have empty
@@ -64,6 +84,18 @@ Currently, the myFilter function contains only:
 Since it always returns true, it will add each feature to the map. Modify the
 code so it only adds features to the map if they have a collection day (not an
 empty string).
+
+*/
+
+var myFilter = function(feature) {
+  if (feature.properties.COLLDAY[0] == " "){
+    return false;
+  }
+  else {
+  return true;
+};
+
+/*
 
 ## Task 4
 
@@ -86,6 +118,27 @@ layer.on('click', function (e) {
 
 That part sets up a click event on each feature. Any code inside that second
 block of code will happen each time a feature is clicked.
+
+*/
+
+var day =layer.feature.properties.COLLDAY;
+    console.log(day);
+    $(".day-of-week").text(fullDay(day));
+
+switch (layer.feature.properties.COLLDAY) {
+         case 'MON': $(".day-of-week").text( "Monday" );
+         break;
+         case 'TUE': $(".day-of-week").text( "Tuesday" );
+         break;
+         case 'WED': $(".day-of-week").text( "Wednesday" );
+         break;
+         case 'THU': $(".day-of-week").text( "Thursday" );
+         break;
+         case 'FRI': $(".day-of-week").text( "Friday" );
+          $('.day-of-week').html(dow);
+      };
+
+/*
 
 ## Task 5
 
@@ -123,14 +176,7 @@ of the application to report this information.
 
 ===================== */
 
-var dataset = "https://raw.githubusercontent.com/CPLN692-MUSA611/datasets/master/geojson/philadelphia-garbage-collection-boundaries.geojson"
-var featureGroup;
 
-var myStyle = function(feature) {
-  return {};
-};
-
-var showResults = function() {
   /* =====================
   This function uses some jQuery methods that may be new. $(element).hide()
   will add the CSS "display: none" to the element, effectively removing it
@@ -143,7 +189,7 @@ var showResults = function() {
   $('#results').show();
 };
 
-
+/*
 var eachFeatureFunction = function(layer) {
   layer.on('click', function (event) {
     /* =====================
@@ -151,14 +197,6 @@ var eachFeatureFunction = function(layer) {
     Check out layer.feature to see some useful data about the layer that
     you can use in your application.
     ===================== */
-    console.log(layer.feature);
-    showResults();
-  });
-};
-
-var myFilter = function(feature) {
-  return true;
-};
 
 $(document).ready(function() {
   $.ajax(dataset).done(function(data) {
@@ -167,6 +205,7 @@ $(document).ready(function() {
       style: myStyle,
       filter: myFilter
     }).addTo(map);
+
 
     // quite similar to _.each
     featureGroup.eachLayer(eachFeatureFunction);
